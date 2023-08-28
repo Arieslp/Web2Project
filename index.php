@@ -10,15 +10,46 @@
 
     require('connect.php');    
 
+    // 	Check the GET and ensure it's set
+	//	If a count has been supplied, display the selected animal count times   
+    $optionId = array('options' => array('default'=>1));
+    $pageId = filter_input(INPUT_GET, 'page_id', FILTER_VALIDATE_INT, $optionId);
+
     // Query SQL
     $query = "SELECT * FROM pages";
 
-     // A PDO::Statement is prepared from the query.
-     $statement = $db->prepare($query);
+    // A PDO::Statement is prepared from the query.
+    $statement = $db->prepare($query);
 
-     // Execution on the DB server is delayed until we execute().
-     $statement->execute(); 
+    // Execution on the DB server is delayed until we execute().
+    $statement->execute(); 
 
+    // Initialize variable
+    $page_title = "";        
+    $page_content = "";    
+    $page_image_filename = "";    
+
+    
+    if (isset($_GET['p'])){
+        $page_permalink = htmlspecialchars($_GET['p']);
+
+        // Query SQL
+        $query = "SELECT * FROM pages WHERE permalink = ?";
+        $statement1 = $db->prepare($query);
+        $statement1->execute([$page_permalink]);
+
+        if ($statement1->rowCount() > 0) {
+            $row = $statement1->fetch();
+            $page_title = htmlspecialchars($row['title']);
+            $page_content = htmlspecialchars($row['content']);
+            $page_image_filename = htmlspecialchars($row['image_filename']);            
+        } 
+        else {
+            echo "Error: Page not found.";
+            exit;
+        }
+    }
+            
 ?>
 
 <!DOCTYPE html>
@@ -28,62 +59,61 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="main.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">    
     <title>Welcome to UareSpecial!</title>
 </head>
 <body>
     <!-- Remember that alternative syntax is good and html inside php is bad -->
     <div id="container">
+		<!-- Navigation bar -->        
         <header class="header">
-            <div class="box-left">                
-                <a href="index.php"><img src="images/peppy.jpg" alt="My Blog" class="logoleft" /></a> 
+            <div class="headerbackground">
+                <div class="top-left">UareSpecial CMS</div>
+				<div class="bottom-right">Content Management System</div>
             </div>
-            <div class="box-title">
-                <a href="index.php"><h1>My Amazing Blog</h1></a>
-            </div>
-            <div class="box-right"> 
-                <a href="new_post.php">New Post</a>
-            </div>            
-            <div class="box-right">               
-                <a href="index.php">Home</a>
-            </div>                     
+
+            <div id="menubar">
+                <nav>
+                    <?php
+                    // Loop through the results and generate menu items
+                    if($statement->rowCount() > 0): 
+                        while ($row = $statement->fetch()) {
+                            $title = htmlspecialchars($row['title']);
+                            $permalink = htmlspecialchars($row['permalink']);
+
+                            // Generate a menu item with the fetched title and permalink
+                            echo '<a href="index.php?p=' . $permalink . '">' . $title . '</a>';
+                        }
+                    else:
+                        echo "<p>No page title found! </p>";
+                    endif ?>                          
+                </nav>
+			</div>	
         </header>
-        <main>
-            <!-- Display each blog post as a list item.-->
-            <?php if($statement->rowCount() > 0):                
-                while($row = $statement->fetch()): 
-                    $id = $row['id'];
-                    $title = htmlspecialchars($row['title']);
-                    $timestamp = $row['timestamp'];
-                    $content = htmlspecialchars($row['content']);
+        <div>
+				<input type="text" name="search" id="search" />
+				<button type="submit">Search</button>
+			</div>     
 
-                    // Truncate the content if it's longer than 200 characters.
-                    $strcontent = strlen($content) > 200 ? substr($content, 0, 200) . ' ' : $content;
-
-                    // Format the timestamp.
-                    $formatted_timestamp = date("F d, Y, h:i A", strtotime($timestamp));
-            ?>
-                <div class="blogcontent">
-                    <br>
-                    <h3><a href="post.php?id=<?php echo $id; ?>"><?php echo $title; ?></a></h3>
-                    <p>                       
-                        <?php echo $formatted_timestamp; ?>
-                        <a href="edit.php?id=<?php echo $id; ?>">edit</a>
-                    </p><br>
-
-                    <div class="blog_content">
-                        <p><?php echo $strcontent; 
-                            if (strlen($strcontent) > 200): ?>
-                                <a href="post.php?id=<?php echo $id; ?>"> Read Full Post ...</a>                            
-                            <?php endif ?>
-                        </p><br>                            
-                    </div>
-                </div>            
-                <?php 
-                endwhile;  
-            else:
-                echo "<p>No Blog Update</p>";
-            endif ?>  
+        <!-- Main Content -->    
+        <main>      
+			<div id="content">
+                <div class="content-block">
+                    <h1><?php echo $page_title ?></h1></br>
+                </div>
+                <div class="content-block">
+				    <p><?php echo $page_content ?></p></br>
+                </div>
+                <div class="content-block">
+                    <?php if ($page_image_filename != ""): ?>
+                        <img src="images/<?php echo $page_image_filename ?>" alt="image" class="image" />
+                    <?php endif; ?>
+                </div>    
+		    </div>                         
         </main>         
     </div>
 </body>
 </html>
+
