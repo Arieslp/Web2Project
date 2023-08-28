@@ -27,8 +27,7 @@
     // Initialize variable
     $page_title = "";        
     $page_content = "";    
-    $page_image_filename = "";    
-
+    $page_image_filename = "";            
     
     if (isset($_GET['p'])){
         $page_permalink = htmlspecialchars($_GET['p']);
@@ -43,12 +42,12 @@
             $page_title = htmlspecialchars($row['title']);
             $page_content = htmlspecialchars($row['content']);
             $page_image_filename = htmlspecialchars($row['image_filename']);            
-        } 
-        else {
+        } else {
             echo "Error: Page not found.";
             exit;
         }
-    }
+    } 
+    
             
 ?>
 
@@ -61,7 +60,7 @@
     <link rel="stylesheet" href="main.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">    
+    <link href="https://fonts.googleapis.com/css2?family=Black+Ops+One&display=swap" rel="stylesheet">       
     <title>Welcome to UareSpecial!</title>
 </head>
 <body>
@@ -70,12 +69,15 @@
 		<!-- Navigation bar -->        
         <header class="header">
             <div class="headerbackground">
+                <div>
+                    <a href="admin.php" class="admin-link">Admin</a>
+                </div>                
                 <div class="top-left">UareSpecial CMS</div>
 				<div class="bottom-right">Content Management System</div>
             </div>
 
             <div id="menubar">
-                <nav>
+                <nav>                    
                     <?php
                     // Loop through the results and generate menu items
                     if($statement->rowCount() > 0): 
@@ -116,4 +118,3 @@
     </div>
 </body>
 </html>
-
