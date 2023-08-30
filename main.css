@@ -1,0 +1,273 @@
+html,
+body,
+section,
+p,
+header,
+nav,
+footer,
+div,
+article,
+aside,
+ol,
+ul,
+li,
+h1,
+h2,
+h3,
+h6 {	
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
+body {	
+	background-color: #000;
+	font-family: Verdana, sans-serif;
+	padding: 10px;	
+}
+
+ul, ol{
+	list-style: none;	
+}
+
+a{
+	text-decoration: none;
+	color: #2F7AD5;	
+}
+
+div#container {
+	width: 810px;
+	background-color: #fff;
+	border-radius: 8px;
+	margin: 10px auto;
+	padding: 10px;
+	box-shadow: 1px 1px 2px #a2a2a2, -1px -1px 2px #a2a2a2;
+}
+
+.header{
+	position: relative;
+	justify-content: space-between;	
+	background-color: #FFF;		
+	font-size: 12px;
+	align-items: end;	
+}
+
+div .headerbackground {
+	position: relative;
+	display: flex;
+	color: #FFF;
+	font-weight: normal;		
+	background-image: url("images/headerBackground.jpg");
+    background-position: center center; 
+    background-size: 100% 100%;         
+    height: 150px;    
+}
+
+header div .top-left{
+	position: absolute;
+	top: 30px;
+	left: 30px;
+	font-size: 35px;
+	letter-spacing: 10px;
+	font-family: 'Black Ops One', cursive;
+}
+
+div .bottom-right{
+	position: absolute;
+	top: 120px;
+	right: 40px;
+	font-style: italic;
+	font-size: 18px;
+}
+
+#menubar nav{
+	text-align: center;	
+	width: 100%;	
+	background-color: #2F7AD5;
+	background-imae4: linear-gradient(to bottom, #A5CDF1, #1C80DB);	
+	margin: 0px auto;	
+	height: 30px;
+}
+
+#menubar nav a{		
+	text-transform: uppercase;	
+	color: white;
+	font-weight: bold;
+	font-size: 12px;		
+}
+
+#menubar nav a + a::before{
+	content: " | ";
+	color: #FFF;
+} 
+
+#menubar nav a:hover, #menubar nav a:focus{
+	color: #075AA4;
+}
+
+#search-container{
+	display: flex;	
+	justify-content: flex-end;	
+}
+
+#search{
+	width: 200px;
+	height: 15px;			
+	margin: 5px;
+}
+
+div button{
+	font-size: 12px;
+}
+
+#content{	
+	display: block;
+	padding: 10px;
+}
+
+div .login-link{
+	text-decoration: none;
+	color: #DC4428;
+	position: absolute;
+	top: 20px;
+	right: 30px;
+	font-size: 30px;
+	display: none;
+}
+
+div .admin-link{
+	text-decoration: none;
+	color: #DC4428;
+	position: absolute;
+	top: 10px;
+	right: 10px;
+	font-size: 14px;
+	display: none;
+}
+
+header:hover .admin-link, header:hover .admin-link{
+	display: inline;	
+}
+
+#container ul {
+    list-style-type: disc;
+}
+
+#content_admin {
+    position: relative;
+}
+
+#admin_funcbar{
+	padding-top: 10px;
+	padding-bottom: 10px;
+	font-size: 14px;
+	color: #080933;
+}
+
+#admin_funcbar nav{
+	text-align: center;	
+	width: 100%;	
+	background-color: #edf256;
+	margin: 0px auto;	
+	height: 30px;
+}
+
+#admin_funcbar nav a + a::before{
+	content: " | ";
+	color: #1590c0;
+} 
+
+#admin_funcbar nav a:hover, #admin_funcbar nav a:focus{
+	color: #033a6a;
+}
+
+/* #content_admin .button {	
+    background-color: #599de6;
+    color: #fff;
+    padding: 8px 20px;
+    text-decoration: none;
+    border-radius: 5px;
+	position: absolute;
+	top:10px;
+	right: 50px;
+	font-size: 14px;
+} 
+
+#content_admin .button:hover {
+    background-color: #0056b3;
+}
+
+*/
+
+#sortlist{
+	width: 100%; /* Make the table width 100% of its container */
+    border-collapse: collapse; /* Remove spacing between cells */
+	font-size: 14px;
+}
+
+/* Style for even table rows */    
+#sortlist tr:nth-child(even) {
+    background-color: #f3f5c3;
+}
+
+/* Style for odd table rows */
+#sortlist tr:nth-child(odd) {
+    background-color: #ffffff;
+}
+
+/* Style for table header */
+#sortlist th {
+	background-color: #edf256;
+	color: #080933;
+}
+
+/* Style for table cells */
+#sortlist td {
+	padding: 5px;	
+}
+
+#sortlist th:nth-child(1) {
+	width: 50%; /* Set the width of the first column (Title) to 50% */
+}
+
+#sortlist th:nth-child(2), th:nth-child(3) {
+	width: 25%; /* Set the width of the second and third columns to 25% each */
+}
+
+.sortable-header {
+	cursor: pointer;
+}
+
+.sort-asc:after {
+	content: " ▲"; /* Up arrow icon */
+}
+
+.sort-desc:after {
+	content: " ▼"; /* Down arrow icon */
+}
+
+#categoryForm {
+	width: 95%;
+	padding: 10px;
+	background-color: #f3f5c3;
+	border-radius: 5px;
+}
+.navbar p{
+	font-size: 13px;
+	color: #1f63e2;
+	margin-right: 10px; /* Add some spacing between links */
+}
+
+.navbar a {
+    text-decoration: none;
+    color: #1590c0;
+    margin-right: 10px; /* Add some spacing between links */
+	font-size: 12px;
+}
+
+
+/* Add the separator "|" using ::before */
+.navbar a + a::before {
+	content: " | ";
+	color: #1590c0;	
+}
