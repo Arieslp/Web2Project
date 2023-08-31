@@ -25,7 +25,7 @@
         $statement->bindParam(':page_id', $deletePageId, PDO::PARAM_INT);
 
         // Execution on the DB server is delayed until we execute().
-        if ($statement->execute()){
+        if (!$statement->execute()){
             utils::jsonSuccess("Page delete successfully.");
             exit;
         } else {            
