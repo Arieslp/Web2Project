@@ -60,7 +60,7 @@ div .headerbackground {
 	background-image: url("images/headerBackground.jpg");
     background-position: center center; 
     background-size: 100% 100%;         
-    height: 150px;    
+    height: 150px;    	
 }
 
 header div .top-left{
@@ -86,7 +86,7 @@ div .bottom-right{
 	background-color: #2F7AD5;
 	background-imae4: linear-gradient(to bottom, #A5CDF1, #1C80DB);	
 	margin: 0px auto;	
-	height: 30px;
+	height: 40px;
 }
 
 #menubar nav a{		
@@ -125,23 +125,55 @@ div button{
 	padding: 10px;
 }
 
-div .login-link{
-	text-decoration: none;
-	color: #DC4428;
-	position: absolute;
-	top: 20px;
-	right: 30px;
-	font-size: 30px;
-	display: none;
-}
-
-div .admin-link{
+/* div .login-link{
 	text-decoration: none;
 	color: #DC4428;
 	position: absolute;
 	top: 10px;
 	right: 10px;
+	font-size: 16px;
+	font-weight: bold;
+	display: block;
+}
+
+div .register-link{
+	text-decoration: none;
+	color: #DC4428;
+	position: absolute;
+	top: 10x;
+	right: 80px;
+	font-size: 16px;
+	font-weight: bold;
+	display: block;
+} */
+
+.login-link{
+    text-align: right; /* Center-align the links horizontally */
+}
+
+.login-link {
+    display: inline-block; /* Make the links appear in a horizontal line */
+    /* margin: 0 10px; Add space between the links horizontally */
+    padding: 0px 10px; /*Add padding to style the links as buttons */
+	text-align: right;
 	font-size: 14px;
+	color: #158a28;
+}
+
+/* Hover styles for links (optional) */
+.login-link:hover {
+    background-color: #abf4d1; /* Change background color on hover */
+    cursor: pointer; /* Add pointer cursor on hover */
+}
+
+div .admin-link{
+	text-decoration: none;
+	color: #DC4428;	
+	position: absolute;
+	top: 35px;
+	right: 10px;
+	font-size: 16px;
+	font-weight: bold;
 	display: none;
 }
 
@@ -196,7 +228,6 @@ header:hover .admin-link, header:hover .admin-link{
 #content_admin .button:hover {
     background-color: #0056b3;
 }
-
 */
 
 #sortlist{
@@ -265,9 +296,96 @@ header:hover .admin-link, header:hover .admin-link{
 	font-size: 12px;
 }
 
-
 /* Add the separator "|" using ::before */
 .navbar a + a::before {
 	content: " | ";
 	color: #1590c0;	
 }
+
+#register-container{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 70vh;
+	margin: 0;
+}
+
+#register-form input{
+	width: 100%;
+	padding: 10px;
+	margin: 5px 0 10px 0;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+.form-check{
+	display: inline-block; /* Make the links appear in a horizontal line */
+	/* margin: 0 10px; Add space between the links horizontally */
+	padding: 0px 10px; /*Add padding to style the links as buttons */
+	width: 20px;
+	padding: 10px;
+	/* background-color: #f0fcd1; */
+	border-radius: 5px;
+	font-size: 16px;		
+}
+
+#register-form button{
+	width: 100%;
+	padding: 10px;
+	margin: 5px 0 10px 0;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+	background-color: #599de6;
+	color: #fff;
+	font-size: 16px;
+}
+
+/* #login-form {
+	width: 70%;
+	padding: 10px;
+	background-color: #f0fcd1;
+	border-radius: 5px;
+} */
+
+#login-container{
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 70vh;
+	margin: 0;
+}
+
+#login-form input{
+	width: 100%;
+	padding: 10px;
+	margin: 5px 0 10px 0;
+	border: 1px solid #ccc;
+	border-radius: 3px;
+}
+
+#usermain-table1 {
+	border-collapse: collapse;
+	width: 100%;
+	padding-bottom: 10px;
+}
+
+
+#usermain-table1 th {
+    text-align: left;
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+#usermain-table1  td {
+    text-align: left;
+    padding: 8px;
+}
+
+#usermain-table1  tr:nth-child(even) {
+	background-color: #c4e4f8;
+}
+
+#usermain-centered {
+    text-align: center;
+}
+
