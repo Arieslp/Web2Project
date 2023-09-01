@@ -1,4 +1,4 @@
-<?php
+.<?php
 
 /*******w******** 
     
@@ -27,6 +27,7 @@
     $queryCatList = "SELECT * FROM categories";    
     $statementCatList = $db->prepare($queryCatList);    
     $statementCatList->execute(); 
+    $categories = $statementCatList->fetchAll();
 
     // Initialize variable
     $page_title = "";        
@@ -73,7 +74,7 @@
                 exit;          
             }
         }
-               
+      require('header.php'); // Include header file         
 ?>
 
 <!DOCTYPE html>
@@ -96,64 +97,48 @@
 <body>
     <!-- Remember that alternative syntax is good and html inside php is bad -->
     <div id="container">
-		<!-- Navigation bar -->        
-        <header class="header">
-            <div class="headerbackground">
-                <div>
-                    <a href="admin.php" class="admin-link">Admin</a>
-                    <a href="login.php" class="login-link">Login</a>
-                </div>                
-                <div class="top-left">UareSpecial CMS</div>
-				<div class="bottom-right">Content Management System</div>
-            </div>
-
-            <div id="menubar">
-                <nav>
-                    <?php
-                    // Loop through the results and generate menu items
-                    if($statement->rowCount() > 0): 
-                        while ($row = $statement->fetch()) {
-                            $title = htmlspecialchars($row['title']);
-                            $permalink = htmlspecialchars($row['permalink']);
-
-                            // Generate a menu item with the fetched title and permalink
-                            echo '<a href="index.php?p=' . $permalink . '">' . $title . '</a>';
-                        }
-                    else:
-                        echo "<p>No page title found! </p>";
-                    endif ?>                          
-                </nav>
-			</div>	
-
-            
-        </header>
-        <!-- <div>
-				<input type="text" name="search" id="search" />
-				<button type="submit">Search</button>
-			</div>    -->
-            
+		<header>            
             <nav class="navbar bg-body-tertiary">
                     <div class="container-fluid">
                         <!-- Add a sort function to allow user sort the output by category_name -->
                         <p>Navigator by Category</p>
-                        <a href="navigatecategory.php" class="navbar-brand"> All </a>
+                        <!-- <a href="categorysearchall.php" class="navbar-brand"> All </a> -->
                         <!-- Loop through the results and generate menu items -->
-                        <?php                                             
-                        if($statementCatList->rowCount() > 0): 
-                            while ($row = $statementCatList->fetch()) {
-                                $category_name = htmlspecialchars($row['category_name']);
-                                $category_id = htmlspecialchars($row['category_id']);
-                                // Generate a menu item with the fetched data
-                                echo '<a href="inavigatecategory.php?p=' . $category_id . '">' . $category_name . '</a>';                            
-                            }                    
-                        endif ?>           
-                        <br><br>
-                        <form class="d-flex" role="search">
-                            <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" type="submit">Search</button>
+                        
+
+                        <form method="get" action="categorySearch.php" id="categorySearchForm">
+                            <!-- <label for="category_id">Select Category:</label> -->
+                                <select name="category_id" id="category_id">        
+                                    <!-- Populate Category Dropdown -->                                
+                                    <option value="all">ALL</option>
+                                    <?php foreach ($categories as $category): ?>
+                                        <option value="<?php echo $category['category_id']; ?>">
+                                            <?php echo $category['category_name']; ?>              
+                                        </option>
+                                    <?php endforeach; ?>
+                                </select>                                
+                            <input type="submit" value="Go">
                         </form>
+
+
+                        <!-- <?php                                             
+                        // if($statementCatList->rowCount() > 0): 
+                        //     while ($row = $statementCatList->fetch()) {
+                        //         $category_name = htmlspecialchars($row['category_name']);
+                        //         $category_id = htmlspecialchars($row['category_id']);
+                        //         // Generate a menu item with the fetched data
+                        //         echo '<a href="categorySearchPart.php?p=' . $category_id . '">' . $category_name . '</a>';                            
+                        //     }                    
+                        // //endif 
+                        // ?>
+                        // <br><br>
+                        // <form class="d-flex" role="search">
+                        //     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                        //     <button class="btn btn-outline-success" type="submit">Search</button>
+                        // </form>
                     </div>
-                </nav>
+            </nav>
+        </header>
 
         <!-- Main Content -->    
         <main>      
@@ -172,5 +157,13 @@
 		    </div>                         
         </main>         
     </div>
+    <script>
+        // Add an event listener to the category dropdown
+        document.getElementById('category_id').addEventListener('change', function() {        
+            var form = document.getElementById('categorySearchForm');
+    
+            form.submit();
+        });
+    </script>
 </body>
 </html>
