@@ -8,7 +8,11 @@
 
 ****************/
 
-  
+    if (!isset($_SESSION)){
+        session_start();
+    }
+    
+    require_once('connect.php'); // Include database connection
 
     // 	Check the GET and ensure it's set
 	//	If a count has been supplied, display the selected animal count times   
@@ -89,10 +93,20 @@
     <div id="container">
 		<!-- Navigation bar -->        
         <header class="header">
-            <div class="headerbackground">
+            <div class="headerbackground">              
                 <div>
-                    <a href="admin.php" class="admin-link">Admin</a>
-                </div>                
+                    
+                    <!-- <a href="admin.php" class="admin-link">Admin</a> -->
+                    <a href="login.php" class="login-link">Login</a>
+                    <a href="register.php" class="login-link">Register</a>
+
+                    <!-- Check user session user_right = ADMIN, display admin page link -->                    
+                    <?php if (isset($_SESSION['user_right']) && ($_SESSION['user_right'] === 'ADMIN' || $_SESSION['user_right'] === 'NONADMIN')): ?>
+                        <a href="admin.php" class="login-link">Admin</a>
+                    <?php endif; ?>
+                    
+                    <a href="logout.php" class="login-link">Logout</a>
+                </div>   
                 <div class="top-left">UareSpecial CMS</div>
 				<div class="bottom-right">Content Management System</div>
             </div>
