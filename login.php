@@ -134,7 +134,7 @@ require("header.php");
     <script>      
 
     // create from submit
-    $('form').submit(function(e) {
+    $('#login-form').submit(function(e) {
         //$('#login-button').click(function(e) {
         // prevent default form submit action
         e.preventDefault();
