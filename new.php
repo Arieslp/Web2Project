@@ -194,7 +194,7 @@ require('header.php');
     <!-- Remember that alternative syntax is good and HTML inside PHP is bad -->
     <div id="container">
          <main>
-            <form method="post">                
+            <form method="post" id="new-form">                
                     <h2>New Page</h2><br>
                     
                     <div class="formfield">
@@ -262,7 +262,7 @@ require('header.php');
 
 
         // create from submit
-        $('form').submit(function(e) {
+        $('#new-form').submit(function(e) {
             // prevent default form submit action
             e.preventDefault();
 
