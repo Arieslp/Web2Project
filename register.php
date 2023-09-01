@@ -8,8 +8,6 @@
 
 ****************/
 
-session_start(); // Start the session
-
 require_once('connect.php'); // Include database connection
 require('utils.php'); // Include utility functions
 
@@ -26,7 +24,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $data = htmlspecialchars($data);
         return $data;
     }
-
 
     // Retrieve and validate username and email format
     if (empty($_POST['username'])) {        
@@ -54,8 +51,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Retrieve and validate password
-    if (empty($_POST['password'])) {
-        //$passwordError = "Password is required";
+    if (empty($_POST['password'])) {        
         utils::jsonError("Password is required");
         return;
     } else {
@@ -63,49 +59,46 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 
     // Retrieve and validate confirm password
-    if (empty($_POST['confirm_password'])) {
-        //$confirmPasswordError = "Please confirm your password";
+    if (empty($_POST['confirm_password'])) {        
         utils::jsonError("Please confirm your password");
         return;
     } else {
         $confirmPassword = $_POST['confirm_password'];
-        if ($password !== $confirmPassword) {
-            //$confirmPasswordError = "Passwords do not match";
+        if ($password !== $confirmPassword) {            
             utils::jsonError("Passwords do not match");
             return;
         }
     }
 
-    // Retrieve and validate admin checkbox
-    // $admin = $_POST['admin'];
-
-    // if (empty($_POST['admin'])) {
-    //     $admin = "NONADMIN";
-    // } else {
-    //     $admin = "ADMIN";
+    // // define a variable to store the value of the checkbox
+    // if (isset($_POST['admin']) && $_POST['admin'] === 'admin') {     
+    //      $roles = 'ADMIN';
+    //  } else {
+    //      $roles = 'NONADMIN';
     // }
-
-    // define a variable to store the value of the checkbox
-    if (isset($_POST['admin']) && $_POST['admin'] === 'admin') {     
-         $roles = 'ADMIN';
-     } else {
-         $roles = 'NONADMIN';
-    }
-   
-     //var_dump($roles);
-     //exit();
 
     // If there are no errors, you can proceed with registration
     if (empty($usernameError) && empty($passwordError) && empty($confirmPasswordError)) {
-        // Hash the password for security
-        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+        // Generate a random salt
+        $salt = bin2hex(random_bytes(16));
 
-        $query = "INSERT INTO users (username, user_password, roles) VALUES (:username, :user_password, :roles)";
+        // Combine password and salt
+        $passwordWithSalt = $password . $salt;
+
+        // Hash the combined value
+        $hashedPassword = password_hash($passwordWithSalt, PASSWORD_DEFAULT);
+        
+        // Hash the password for security
+        // $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+
+        // $query = "INSERT INTO users (username, user_password, roles) VALUES (:username, :user_password, :roles)";
+        $query = "INSERT INTO users (username, user_password, salt, roles) VALUES (:username, :user_password, :salt, 'NONADMIN')";
         $statement = $db->prepare($query);
         
         $statement->bindParam(':username', $username);
         $statement->bindParam(':user_password', $hashedPassword);
-        $statement->bindParam(':roles', $roles); 
+        $statement->bindParam(':salt', $salt);
+        //$statement->bindParam(':roles', $roles); 
         
         // After successful registration, set a success message
         //$registrationSuccess = "Registration successful! You can now log in.";                     
@@ -133,8 +126,7 @@ require("header.php");
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"></script>       
     <link rel="stylesheet" href="main.css">
-    <!-- <script src="js/utilityFunctions.js"></script>
-	<script src="js/formValidate.js"></script>     -->
+
     <title>Registration</title>
 </head>
 
@@ -142,7 +134,7 @@ require("header.php");
     <div id="container">
         <div id="register-container">
         <main>
-            <h2>SIGN IN</h2><br>
+            <h2>Registration</h2><br>
 
             <?php if (!empty($registrationSuccess)): ?>
                 <p style="color: green;"><?php echo $registrationSuccess; ?></p>
@@ -152,33 +144,24 @@ require("header.php");
                 
                 <div class="form-group">      
                     <label for="username">Username:</label>
-                    <input type="text" name="username" id="username" placeholder="Enter email address" value="<?php echo $username; ?>" required>                    
+                    <input type="text" name="username" id="username" placeholder="Enter email address ✉️" value="<?php echo $username; ?>" required>                    
                 </div>
 
                 <div class="form-group">
                     <label for="password">Password:</label>
-                    <input type="password" name="password" id="password" placeholder="Enter password" required>
+                    <input type="password" name="password" id="password" placeholder="Enter password 🔑" required>
 
                 <div class="form-group">
                     <label for="confirm_password">Confirm Password:</label>
-                    <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm password" required>                    
+                    <input type="password" name="confirm_password" id="confirm_password" placeholder="Confirm password 🔑" required>                    
                 </div>
 
-                <div class="form-group">
+                <!-- <div class="form-group">
                     <div class="form-check">                        
-                        <!-- <label for="form-check-input">Admin</label>
-                        <input type="checkbox" name ="admin" id="form-check-input" value="admin">
-                        
-                        <label class="form-check-label" for="flexCheckDefault">
-                        <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault"> -->
-
                         <label class="form-check-label" for="flexCheckDefault">Admin</label>
                         <input class="form-check-input" type="checkbox" value="admin" id="flexCheckDefault" name="admin">
-
-
-
                     </div>
-                </div>
+                </div> -->
                 
                 <button id="register-button" type="submit">Register</button>
 
@@ -189,7 +172,7 @@ require("header.php");
 
     <script>        
     // create from submit
-    $('form').submit(function(e) {
+    $('#register-form').submit(function(e) {
         // prevent default form submit action
         e.preventDefault();
 
